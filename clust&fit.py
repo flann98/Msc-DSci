@@ -88,6 +88,8 @@ def fit_line(data):
     Parameters
     ----------
     data : Red wine data for alcohol content and quality.
+    
+    Fits the line to the distribution.
 
     Returns
     -------
@@ -102,7 +104,20 @@ def fit_line(data):
     return p, cov, sig;
     
 def bars_with_fit(data, desc):
+    """
     
+    Parameters
+    ----------
+    data : Red wine alcohol/quality data.
+    desc : Dataframe containing the first four moments of the distribution.
+
+    Plots a seaborn histogram with overplotted line fitted to the distribution.
+
+    Returns
+    -------
+    None.
+
+    """
     # Assigning statistical moments to variables.
     mean = desc.loc['alcohol', 'mean'];
     std = desc.loc['alcohol', 'std'];
@@ -202,7 +217,8 @@ def bestclst(data, scaler):
     data : Red wine data quality and alcohol content.
     scaler : Instance of RobustScaler()
     
-    
+    Iterates over the range of clusters and checks if the current
+    silhouette score is greater than the current best, replacing it if so.
     
     Returns
     -------
@@ -240,7 +256,7 @@ def elbow(kmin, kmax, wcss, silclst, silscr):
     Parameters
     ----------
     kmin : Lowest number of clusters.
-    kmax : 1/10th of all samples as number of clusters.
+    kmax : 1/100th of all samples as number of clusters.
     wcss : Within-Cluster Sum of Square.
     silclst : The best number of clusters according to prior silhoutte score.
     silscr : Highest silhouette score.
@@ -319,7 +335,7 @@ def sulphac(data, scaler, silclst):
     colbar.set_ticklabels(np.unique(labels) + 1);
     
     # Formatting of axes/ticks.
-    ax.set_title('Clusters of wine samples formed on acidity/'
+    ax.set_title('Clusters of wine samples formed on acidity/\n'
                  'sulphur dioxide relationship', fontsize=12);
     xrange = np.linspace(np.min(data['total sulfur dioxide']), 
                               np.max(data['total sulfur dioxide']),
@@ -369,8 +385,8 @@ def violin(data):
     ax.grid(axis='y', which='major', linestyle=':', linewidth=0.4);
     ax.set_xlabel('Quality of red wine', fontsize=11);
     ax.set_ylabel('Alcohol content', fontsize=11);
-    ax.set_title('Alcohol content by quality of red wine, '
-                 'separated by established cluster', fontsize=12)
+    ax.set_title('Alcohol content by quality of red wine,'
+                 '\nseparated by established cluster', fontsize=12)
     
     fig.savefig('violin.png', dpi=144);
     
