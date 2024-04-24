@@ -26,10 +26,13 @@ reds=pd.read_csv('Dataset/winequality-red.csv', delimiter=';');
 def cnfmat(data):
     """
     
+    Creates a confusion matrix to illustrate covariance with according hue.
+    
     Parameters
     ----------
     data : Takes the dataset and produces a confusion matrix plot to highlight
     correlation between different attributes of the wine variants.
+    
 
     Returns
     -------
@@ -85,11 +88,11 @@ def linfunc(x, m, c):
 def fit_line(data):
     """
     
+    Fits the line to the distribution.
+    
     Parameters
     ----------
     data : Red wine data for alcohol content and quality.
-    
-    Fits the line to the distribution.
 
     Returns
     -------
@@ -105,13 +108,14 @@ def fit_line(data):
     
 def bars_with_fit(data, desc):
     """
+        
+    Plots a seaborn histogram with overplotted line fitted to the distribution.
+
     
     Parameters
     ----------
     data : Red wine alcohol/quality data.
     desc : Dataframe containing the first four moments of the distribution.
-
-    Plots a seaborn histogram with overplotted line fitted to the distribution.
 
     Returns
     -------
@@ -173,15 +177,15 @@ def bars_with_fit(data, desc):
 def clust(n, data, scaler, wcss):
     """
     
+    Calculates the silhouette score / 
+    Within-Cluster Sum of Square value for 'n' clusters and returns them.
+    
     Parameters
     ----------
     n : Number of clusters.
     data : Compared variables.
     scaler : Instance of RobustScaler()
     wcss = Within-Cluster Sum of Square values.
-    
-    Calculates the silhouette score / 
-    Within-Cluster Sum of Square value for 'n' clusters and returns them.
 
     Returns
     -------
@@ -212,13 +216,13 @@ def clust(n, data, scaler, wcss):
 def bestclst(data, scaler):
     """
     
+    Iterates over the range of clusters and checks if the current
+    silhouette score is greater than the current best, replacing it if so.
+    
     Parameters
     ----------
     data : Red wine data quality and alcohol content.
     scaler : Instance of RobustScaler()
-    
-    Iterates over the range of clusters and checks if the current
-    silhouette score is greater than the current best, replacing it if so.
     
     Returns
     -------
@@ -253,6 +257,9 @@ def bestclst(data, scaler):
 def elbow(kmin, kmax, wcss, silclst, silscr):
     """
     
+    Plots an elbow plot of WCSS against the number of clusters and annotates
+    the best clusters according to silhouette score.
+    
     Parameters
     ----------
     kmin : Lowest number of clusters.
@@ -286,6 +293,9 @@ def elbow(kmin, kmax, wcss, silclst, silscr):
     
 def sulphac(data, scaler, silclst):
     """
+
+    Plots the clusters of wine samples categorised by sulphur dioxide quantity
+    and acidity of the sample.
     
     Parameters
     ----------
@@ -294,9 +304,6 @@ def sulphac(data, scaler, silclst):
     scaler : RobustScaler() instance used as distribution is not normalised.
     silclst : The best number of clusters based on silhouette score
     corroborated by the elbow plot.
-
-    Plots the clusters of wine samples categorised by sulphur dioxide quantity
-    and acidity of the sample.
 
     Returns
     -------
@@ -359,12 +366,12 @@ def sulphac(data, scaler, silclst):
 def violin(data):
     """
     
+    Creates a violin plot comparing the 3 determined clusters by quality with
+    respect to the alcohol content.
+    
     Parameters
     ----------
     data : Red wine variants' data.
-    
-    Creates a violin plot comparing the 3 determined clusters by quality with
-    respect to the alcohol content.
 
     Returns
     -------
