@@ -14,7 +14,7 @@ from sklearn.cluster import KMeans;
 from sklearn.metrics import silhouette_score;
 
 # Importing RobustScaler to rescale the data as the data is not
-# normally distributed.
+# normalised.
 from sklearn.preprocessing import RobustScaler;
 
 # Matplotlib for plotting.
