@@ -291,7 +291,7 @@ def sulphac(data, scaler, silclst):
     ----------
     data : The red wine sample dataset sliced to cluster by Total Sulphur
     Dioxide / Fixed Acidity.
-    scaler : RobustScaler() instance used as distribution is not normal.
+    scaler : RobustScaler() instance used as distribution is not normalised.
     silclst : The best number of clusters based on silhouette score
     corroborated by the elbow plot.
 
@@ -407,7 +407,7 @@ cnfmat(reds);
 
 bars_with_fit(reds[['alcohol', 'quality']], desc.loc[['alcohol']]);
 
-# Creating instance of scaler - RobustScaler() as distribution is not normal.
+# Creating instance of scaler - RobustScaler() distribution not normalised.
 scaler = RobustScaler();
 
 # Function to return the best cluster/silhouette score
