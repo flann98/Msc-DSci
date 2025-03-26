@@ -12,6 +12,7 @@ import shutil;
 from Bio.PDB import PDBParser;
 import networkx as nx;
 import numpy as np;
+import csv;
 
 def unzipper(ipt, opt):
     """
@@ -64,7 +65,7 @@ def unzip(folder_in, folder_out):
         unzipper(fr'{folder_in}\{file}', folder_out);
     return;
 
-def parse(file, output_dir, threshold=6.0):
+def parse(file, output_dir, threshold):
     """
     
     Parameters
@@ -90,11 +91,15 @@ def parse(file, output_dir, threshold=6.0):
         
         # Create the GCN graph format.
         gcn_graph = nx.Graph();
+        # Initialise the amino acid sequence.
+        amino_acids = [];
 
         # Extract residues and atoms.
         for model in structure:
             for chain in model:
                 for residue in chain:
+                    # Append current residue of amino acid sequence.
+                    amino_acids.append(residue.resname);
                     res_id = (residue.id[1], chain.id);
                     # Looping to the atomic layer of the structure.
                     for atom in residue:
@@ -109,46 +114,52 @@ def parse(file, output_dir, threshold=6.0):
                         # Add edges based on distance threshold.
                         add_edges = [];
                         for other_atm_id, other_atm in gcn_graph.nodes(data="atom"):
-                            if other_atm_id[0] != atom_id:
-                                if len(other_atm_id) != len(atom_id):
-                                    # Distance between atoms' centroids.
-                                    dist = np.mean(atom_id[1]) - np.mean(other_atm_id[0][1]);
-                                else:
-                                    dist = np.mean(atom_id[1]) - np.mean(other_atm_id[1]);
+                            if other_atm_id[0] != atom_node:
+                                dist = np.mean(atom_node[0][1]) - np.mean(other_atm_id[0][1]);
                                 # Threshold for interaction.
                                 if abs(dist) < threshold:
-                                    add_edges.append([atom_id, other_atm_id, dist]);
+                                    add_edges.append([atom_node, other_atm_id, dist]);
                         for new in add_edges:
                             gcn_graph.add_edge(new[0], new[1], weight=new[2]);
-                                    
-                
-        # Extract amino acid sequence.
-# =============================================================================
-#       amino_acids = 
-# =============================================================================
-
-        # Save the graph as adjacency list.
-        nx.write_adjlist(gcn_graph,
-                         fr"{output_dir}/{fileID}-gcn_graph.adjlist");
         
-        return gcn_graph, #amino_acids;
+        # Save the amino acid sequence as labels.
+        with open(fr'{output_dir}/{fileID}-AAlabel.csv', 
+                  mode='w', 
+                  newline='') as fmt:
+            for acid in amino_acids:
+                fmt.write(f'{acid}\n');
+        # Save the graph as adjacency list.
+        nx.write_graph6(gcn_graph,
+                         fr'{output_dir}/{fileID}-gcn_graph');
+        return;
 
     except Exception as e:
         print(f"Error parsing PDB file: {e}");
         return None;
-    
-# =============================================================================
-# # Create a graph.
-# graph = nx.Graph();
-# 
-# # Add nodes (atoms).
-# for i, atom in enumerate(atomic_types):
-#     graph.add_node(i, features={"type": atom, "coord": atomic_coordinates[i]});
-# 
-# # Add edges (bonds).
-# for i, neighbors in enumerate(bonds[0]):  # bonds[0] contains neighbor indices
-#     for j in neighbors:
-#         bond_length = np.linalg.norm(atomic_coordinates[i] - atomic_coordinates[j]);
-#         graph.add_edge(i, j, features={"length": bond_length});
-# =============================================================================
 
+def iterator(direct=r'dataset/AlphaFold Protein Database e.coli/Uncompressed',
+             output_dir=r'dataset/AlphaFold Protein Database e.coli/Uncompressed/graphs', 
+             threshold=6.0):
+    """
+    
+
+    Parameters
+    ----------
+    direct : input folder directory, optional
+        DESCRIPTION. The default is 'dataset\\AlphaFold Protein Database e.coli\\Uncompressed'.
+    output_dir : output folder directory, optional
+        DESCRIPTION. The default is 'dataset\\AlphaFold Protein Database e.coli\\Uncompressed\\graphs'.
+    threshold : TYPE, optional
+        DESCRIPTION. The default is 6.0; threshold for molecular interaction.
+
+    Returns
+    -------
+    None.
+
+    """
+    
+    # Enumerates over all files in the directory with a .pdb extension.
+    for file in os.listdir(direct):
+        if '.pdb' in file:
+            parse(fr'{direct}/{file}', output_dir, threshold=6.0);
+    return;
