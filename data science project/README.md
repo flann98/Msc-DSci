@@ -1,1 +1,1 @@
-This project aims to compare a Bayesian Convolutional Neural Network with a traditional CNN and a Natural Language Processing model for the prediction of protein structures from the genome of E. coli
+This project aims to compare a custom Neural Network model with a traditional 1 dimensional CNN and a Natural Language Processing (LSTM) model for the prediction of protein structures from the genome of E. coli.
