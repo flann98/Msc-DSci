@@ -8,7 +8,7 @@ Created on Wed Apr 09 16:41:XX 2025
 import os;
 import gzip;
 import shutil;
-# Requires biopython installation.
+# Requires BioPython installation.
 from Bio.PDB import PDBParser;
 import networkx as nx;
 import numpy as np;
