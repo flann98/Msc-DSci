@@ -130,7 +130,6 @@ def sequence_length(labels):
     ax.tick_params(axis='y', labelsize=6, labelrotation=15);
     ax.grid(visible=True, axis='y', linestyle=':', linewidth=0.4);
     
-    
 labels = AAlabel_read();
 class_balance(labels);
 sequence_length(labels);
