@@ -1,5 +1,7 @@
 This project aims to compare a custom Neural Network model with a traditional 1 dimensional CNN and a Natural Language Processing (LSTM) model for the prediction of protein structures from the genome of E. coli.
 
+The file GNN-colab-ver.ipynb requires the use of Google Colab.
+
 Dataset used is the e.coli proteome from the AlphaFold structures downloads page: https://alphafold.ebi.ac.uk/download
 
 Required modules:
